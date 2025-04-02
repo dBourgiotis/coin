@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import tailwindcss from '@tailwindcss/vite'
+
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
@@ -9,8 +11,15 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@nuxt/image',
     '@nuxt/test-utils',
-    '@nuxt/ui'
+    '@nuxt/ui',
+    '@nuxtjs/storybook'
   ],
+  vite: {
+    plugins: [
+      tailwindcss(),
+    ]
+  },
+  css: ['~/assets/css/main.css'],
   app: {
     head: {
       title: 'Feedforwarders', // default fallback title
