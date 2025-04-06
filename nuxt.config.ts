@@ -11,7 +11,6 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@nuxt/image',
     '@nuxt/test-utils',
-    '@nuxt/ui',
     '@nuxtjs/storybook'
   ],
   vite: {
