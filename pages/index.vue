@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { FeedbackFormData } from "~/components/FeedbackForm/FeedbackForm.vue";
+import Showdown from 'showdown'
+
 const response = ref<string>('');
 
 const onFeedbackSubmit = async (feedback: FeedbackFormData) => {
@@ -7,7 +9,8 @@ const onFeedbackSubmit = async (feedback: FeedbackFormData) => {
     method: 'POST',
     body: { feedback }
   })
-  response.value = rawRes.response?.output_text
+  const converter = new Showdown.Converter()
+  response.value = converter.makeHtml(rawRes.response?.output_text)
   console.log('CLIENT', response.value)
 }
 </script>
@@ -18,7 +21,7 @@ const onFeedbackSubmit = async (feedback: FeedbackFormData) => {
     </section>
     <section class="flex flex-col gap-4 px-6 relative w-full">
       <div class="text-sm text-gray-500">
-        {{ response }}
+        <div v-html="response" />
       </div>
     </section>
   </div>
