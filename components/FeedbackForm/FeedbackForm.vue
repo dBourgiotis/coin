@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { tooltips } from "./tooltips.config";
 const props = defineProps<{
   onSubmit: (feedback: FeedbackFormData) => Promise<void>;
 }>();
@@ -40,6 +41,17 @@ const handleSubmit = async () => {
   await props.onSubmit(formData.value);
   isLoading.value = false;
 };
+
+const toast = useToast();
+
+function showToast(title: string, description: string) {
+  toast.add({
+    title,
+    description,
+    class: "overflow-scroll max-h-[80vh]",
+    
+  });
+}
 </script>
 
 <template>
@@ -109,10 +121,15 @@ const handleSubmit = async () => {
         <h3 class="text-base font-semibold leading-6 text-gray-900">
           5 Why's Analysis
         </h3>
-        <p class="mt-1 text-sm text-gray-500 flex items-center-safe gap-1 cursor-pointer transition-colors ease-in hover:text-gray-950">
+        <p
+          class="mt-1 text-sm text-gray-500 flex items-center-safe gap-1 cursor-pointer transition-colors ease-in hover:text-gray-950"
+          @click="showToast(tooltips.fiveWhys)"
+        >
           Below there are a series of 5 whys questions that will guide you to
           identify the root of the problem you want work on.
-          <Icon name="ri:information-2-line"/>
+          <Icon
+            name="ri:information-2-line"
+          />
         </p>
       </div>
       <div class="mt-6 space-y-6">
@@ -169,10 +186,11 @@ const handleSubmit = async () => {
         <div>
           <label
             for="discPersonality"
-            class="text-sm font-medium leading-6 text-gray-900 flex items-center-safe gap-1 cursor-pointer "
-            >
+            class="text-sm font-medium leading-6 text-gray-900 flex items-center-safe gap-1 cursor-pointer"
+            @click="showToast(tooltips.disk)"
+          >
             DISC Personality
-            <Icon name="ri:information-2-line"/>
+            <Icon name="ri:information-2-line" />
           </label>
           <div class="mt-2">
             <select
@@ -218,11 +236,11 @@ const handleSubmit = async () => {
         <div>
           <label
             for="objectives"
-            class="flex items-center-safe gap-1 cursor-pointer  text-sm font-medium leading-6 text-gray-900"
+            class="flex items-center-safe gap-1 cursor-pointer text-sm font-medium leading-6 text-gray-900"
+            @click="showToast(tooltips.coin)"
             >Objectives/Action Points (use COIN)
-            <Icon name="ri:information-2-line"/>
-            </label
-          >
+            <Icon name="ri:information-2-line" />
+          </label>
           <div class="mt-2">
             <textarea
               id="objectives"
@@ -242,7 +260,7 @@ const handleSubmit = async () => {
         class="inline-flex gap-1 justify-center items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         :disabled="isLoading"
       >
-        <Icon v-if="isLoading" name="line-md:loading-twotone-loop" size="18"/>
+        <Icon v-if="isLoading" name="line-md:loading-twotone-loop" size="18" />
         <span v-else>Submit Feedback</span>
       </button>
     </div>
