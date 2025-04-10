@@ -4,7 +4,9 @@ const props = defineProps<{
   onSubmit: (feedback: FeedbackFormData) => Promise<void>;
 }>();
 export interface FeedbackFormData {
-  summary: string;
+  whatIsTheIssue: string;
+  whoIsInvolved: string;
+  whatIsTheImpact: string;
   whys: string[];
   rootCause: string;
   discPersonality: string;
@@ -21,7 +23,9 @@ const feedbackReactions = [
 ];
 
 const formData = ref<FeedbackFormData>({
-  summary: "",
+  whatIsTheIssue: "",
+  whoIsInvolved: "",
+  whatIsTheImpact: "",
   whys: ["", "", "", "", ""],
   rootCause: "",
   discPersonality: "",
@@ -29,38 +33,94 @@ const formData = ref<FeedbackFormData>({
   objectives: "",
 });
 
+const isLoading = ref(false);
+
 const handleSubmit = async () => {
-  console.log("Form submitted:", formData.value);
-  props.onSubmit(formData.value);
+  isLoading.value = true;
+  await props.onSubmit(formData.value);
+  isLoading.value = false;
 };
 </script>
 
 <template>
   <form class="space-y-8" @submit.prevent="handleSubmit">
     <!-- Summary Section -->
-    <div>
-      <label for="summary" class="block text-sm font-medium leading-6 text-gray-900">Summary</label>
-      <div class="mt-2">
-        <input
-          id="summary"
-          v-model="formData.summary"
-          type="text"
-          class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          required
+    <div class="space-y-6">
+      <div>
+        <h3 class="text-base font-semibold leading-6 text-gray-900">Summary</h3>
+        <p class="mt-1 text-sm text-gray-500">
+          Define the issue/problem, who is involved and what is the impact.
+        </p>
+      </div>
+
+      <div>
+        <label
+          for="whatIsTheIssue"
+          class="block text-sm font-medium leading-6 text-gray-900"
+          >What is the issue</label
         >
+        <div class="mt-2">
+          <input
+            id="whatIsTheIssue"
+            v-model="formData.whatIsTheIssue"
+            type="text"
+            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            required
+          >
+        </div>
+      </div>
+      <div>
+        <label
+          for="whoIsInvolved"
+          class="block text-sm font-medium leading-6 text-gray-900"
+          >Who is involved</label
+        >
+        <div class="mt-2">
+          <input
+            id="whoIsInvolved"
+            v-model="formData.whoIsInvolved"
+            type="text"
+            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            required
+          >
+        </div>
+      </div>
+      <div>
+        <label
+          for="whatIsTheImpact"
+          class="block text-sm font-medium leading-6 text-gray-900"
+          >What is the impact</label
+        >
+        <div class="mt-2">
+          <input
+            id="whatIsTheImpact"
+            v-model="formData.whatIsTheImpact"
+            type="text"
+            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            required
+          >
+        </div>
       </div>
     </div>
 
     <!-- 5 Why's Analysis Section -->
     <div>
       <div>
-        <h3 class="text-base font-semibold leading-6 text-gray-900">5 Why's Analysis</h3>
-        <p class="mt-1 text-sm text-gray-500">Dive deeper into the root cause through progressive questioning.</p>
+        <h3 class="text-base font-semibold leading-6 text-gray-900">
+          5 Why's Analysis
+        </h3>
+        <p class="mt-1 text-sm text-gray-500">
+          Below there are a series of 5 whys questions that will guide you to
+          identify the root of the problem you want work on.
+        </p>
       </div>
       <div class="mt-6 space-y-6">
         <template v-for="(why, index) in 5" :key="index">
           <div>
-            <label :for="'why' + (index + 1)" class="block text-sm font-medium leading-6 text-gray-900">
+            <label
+              :for="'why' + (index + 1)"
+              class="block text-sm font-medium leading-6 text-gray-900"
+            >
               Why #{{ index + 1 }}
             </label>
             <div class="mt-2">
@@ -80,12 +140,20 @@ const handleSubmit = async () => {
     <!-- Analysis Results Section -->
     <div>
       <div>
-        <h3 class="text-base font-semibold leading-6 text-gray-900">Analysis Results</h3>
-        <p class="mt-1 text-sm text-gray-500">Summarize your findings and personality assessment.</p>
+        <h3 class="text-base font-semibold leading-6 text-gray-900">
+          Analysis Results
+        </h3>
+        <p class="mt-1 text-sm text-gray-500">
+          Summarize your findings and personality assessment.
+        </p>
       </div>
       <div class="mt-6 space-y-6">
         <div>
-          <label for="rootCause" class="block text-sm font-medium leading-6 text-gray-900">Root Cause</label>
+          <label
+            for="rootCause"
+            class="block text-sm font-medium leading-6 text-gray-900"
+            >Root Cause</label
+          >
           <div class="mt-2">
             <input
               id="rootCause"
@@ -98,7 +166,11 @@ const handleSubmit = async () => {
         </div>
 
         <div>
-          <label for="discPersonality" class="block text-sm font-medium leading-6 text-gray-900">DISC Personality</label>
+          <label
+            for="discPersonality"
+            class="block text-sm font-medium leading-6 text-gray-900"
+            >DISC Personality</label
+          >
           <div class="mt-2">
             <select
               id="discPersonality"
@@ -116,7 +188,10 @@ const handleSubmit = async () => {
         </div>
 
         <div>
-          <label for="previousFeedbackReaction" class="block text-sm font-medium leading-6 text-gray-900">
+          <label
+            for="previousFeedbackReaction"
+            class="block text-sm font-medium leading-6 text-gray-900"
+          >
             Previous Feedback Reaction
           </label>
           <div class="mt-2">
@@ -138,7 +213,11 @@ const handleSubmit = async () => {
         </div>
 
         <div>
-          <label for="objectives" class="block text-sm font-medium leading-6 text-gray-900">Objectives/Action Points</label>
+          <label
+            for="objectives"
+            class="block text-sm font-medium leading-6 text-gray-900"
+            >Objectives/Action Points</label
+          >
           <div class="mt-2">
             <textarea
               id="objectives"

@@ -15,7 +15,9 @@ export default defineEventHandler(async (event) => {
 function composeInstructions(feedback: FeedbackFormData): string {
   const instructions = [
     'I would like you to evaluate the following feedback:',
-    `this is the summary: ${feedback.summary}`,
+    `this is the what is the issue: ${feedback.whatIsTheIssue}`,
+    `this is the who is involved: ${feedback.whoIsInvolved}`,
+    `this is the what is the impact: ${feedback.whatIsTheImpact}`,
     `this is the whys: ${feedback.whys.join('\n')}`,
     `this is the root cause: ${feedback.rootCause}`,
     `this is the objectives: ${feedback.objectives}`,
@@ -26,3 +28,16 @@ function composeInstructions(feedback: FeedbackFormData): string {
   ].join('\n')
   return instructions
 }
+
+// TODO:
+
+
+// 5 whys => description + how to root cause
+
+// DISC profile => description + how to use it
+
+// COIN description
+
+// Feedback to Feedforward
+
+// Structure response (Evalution + feedforward suggestions)
