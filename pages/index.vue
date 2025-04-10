@@ -19,7 +19,7 @@ const onFeedbackSubmit = async (feedback: FeedbackFormData) => {
     <section class="flex flex-col relative">
       <FeedbackForm :on-submit="onFeedbackSubmit" />
     </section>
-    <section class="flex flex-col gap-4 px-6 relative w-full">
+    <section class="flex flex-col gap-4 relative w-full">
       <div class="text-sm text-gray-500">
         <div v-html="response" />
       </div>

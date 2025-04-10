@@ -23,21 +23,12 @@ function composeInstructions(feedback: FeedbackFormData): string {
     `this is the objectives: ${feedback.objectives}`,
     `this is the direct report's DISC profile: ${feedback.discPersonality}`,
     `this is the direct report's previous feedback: ${feedback.previousFeedbackReaction}`,
-    `I would like you to evaluate if I have correctly utilised the 5 Whys technique and if I have correctly utilised the DISC profile to evaluate the direct report's personality.`,
-    'Plus to evaluate if the objectives/actions are gonna be actionable'
+    `I would like your response to be in the following format:`,
+    `- Evaluation of the feedback`,
+    `- Evaluation of the 5 Whys technique`,
+    `- Evaluation of the DISC profile`,
+    `- Evaluation of the objectives/actions`,
+    `- Feedforward suggestions`,
   ].join('\n')
   return instructions
 }
-
-// TODO:
-
-
-// 5 whys => description + how to root cause
-
-// DISC profile => description + how to use it
-
-// COIN description
-
-// Feedback to Feedforward
-
-// Structure response (Evalution + feedforward suggestions)

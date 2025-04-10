@@ -49,7 +49,7 @@ function showToast(title: string, description: string) {
     title,
     description,
     class: "overflow-scroll max-h-[80vh]",
-    
+
   });
 }
 </script>
@@ -261,7 +261,7 @@ function showToast(title: string, description: string) {
         :disabled="isLoading"
       >
         <Icon v-if="isLoading" name="line-md:loading-twotone-loop" size="18" />
-        <span v-else>Submit Feedback</span>
+        <span>Submit Feedback</span>
       </button>
     </div>
   </form>
