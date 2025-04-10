@@ -109,9 +109,10 @@ const handleSubmit = async () => {
         <h3 class="text-base font-semibold leading-6 text-gray-900">
           5 Why's Analysis
         </h3>
-        <p class="mt-1 text-sm text-gray-500">
+        <p class="mt-1 text-sm text-gray-500 flex items-center-safe gap-1 cursor-pointer transition-colors ease-in hover:text-gray-950">
           Below there are a series of 5 whys questions that will guide you to
           identify the root of the problem you want work on.
+          <Icon name="ri:information-2-line"/>
         </p>
       </div>
       <div class="mt-6 space-y-6">
@@ -152,8 +153,8 @@ const handleSubmit = async () => {
           <label
             for="rootCause"
             class="block text-sm font-medium leading-6 text-gray-900"
-            >Root Cause</label
-          >
+            >Root Cause
+          </label>
           <div class="mt-2">
             <input
               id="rootCause"
@@ -168,9 +169,11 @@ const handleSubmit = async () => {
         <div>
           <label
             for="discPersonality"
-            class="block text-sm font-medium leading-6 text-gray-900"
-            >DISC Personality</label
-          >
+            class="text-sm font-medium leading-6 text-gray-900 flex items-center-safe gap-1 cursor-pointer "
+            >
+            DISC Personality
+            <Icon name="ri:information-2-line"/>
+          </label>
           <div class="mt-2">
             <select
               id="discPersonality"
@@ -215,8 +218,10 @@ const handleSubmit = async () => {
         <div>
           <label
             for="objectives"
-            class="block text-sm font-medium leading-6 text-gray-900"
-            >Objectives/Action Points</label
+            class="flex items-center-safe gap-1 cursor-pointer  text-sm font-medium leading-6 text-gray-900"
+            >Objectives/Action Points (use COIN)
+            <Icon name="ri:information-2-line"/>
+            </label
           >
           <div class="mt-2">
             <textarea
@@ -234,9 +239,11 @@ const handleSubmit = async () => {
     <div class="flex justify-end">
       <button
         type="submit"
-        class="inline-flex justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        class="inline-flex gap-1 justify-center items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        :disabled="isLoading"
       >
-        Submit Feedback
+        <Icon v-if="isLoading" name="line-md:loading-twotone-loop" size="18"/>
+        <span v-else>Submit Feedback</span>
       </button>
     </div>
   </form>
