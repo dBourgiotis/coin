@@ -26,8 +26,8 @@ function composeInstructions(feedback: FeedbackFormData): string {
     `I would like your response to be in the following format:`,
     `- Evaluation of the feedback`,
     `- Evaluation of the 5 Whys technique`,
-    `- Evaluation of the DISC profile`,
-    `- Evaluation of the objectives/actions`,
+    `- Evaluation of the feedback/objectives based on the DISC profile`,
+    `- Evaluation of the objectives/actions based on the COIN model & the previous feedback`,
     `- Feedforward suggestions`,
   ].join('\n')
   return instructions
