@@ -1,17 +1,17 @@
 <script setup lang="ts">
+import type { AiResponseType } from "~/components/AiResponse/AiResponse";
+import AiResponse from "~/components/AiResponse/AiResponse.vue";
 import type { FeedbackFormData } from "~/components/FeedbackForm/FeedbackForm.vue";
-import Showdown from 'showdown'
 
-const response = ref<string>('');
+const response: Ref<AiResponseType | undefined> = ref();
 
 const onFeedbackSubmit = async (feedback: FeedbackFormData) => {
   const rawRes = await $fetch('/api/feedbackEvaluation', {
     method: 'POST',
     body: { feedback }
   })
-  const converter = new Showdown.Converter()
-  response.value = converter.makeHtml(rawRes.response?.output_text)
-  console.log('CLIENT', response.value)
+  console.log(JSON.parse(rawRes.response.output_text))
+  response.value = JSON.parse(rawRes.response.output_text)
 }
 </script>
 <template>
@@ -20,8 +20,8 @@ const onFeedbackSubmit = async (feedback: FeedbackFormData) => {
       <FeedbackForm :on-submit="onFeedbackSubmit" />
     </section>
     <section class="flex flex-col gap-4 relative w-full">
-      <div class="text-sm text-gray-500">
-        <div v-html="response" />
+      <div class="text-sm text-gray-500" >
+        <AiResponse v-if="response" :response="response" />
       </div>
     </section>
   </div>
