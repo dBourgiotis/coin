@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { tooltips } from "./tooltips.config";
+import { ref, type ShallowRef } from "vue";
+import { articles } from "./articles.config";
 const props = defineProps<{
   onSubmit: (feedback: FeedbackFormData) => Promise<void>;
 }>();
@@ -42,15 +42,26 @@ const handleSubmit = async () => {
   isLoading.value = false;
 };
 
-const toast = useToast();
+const modal: ShallowRef<{
+  open: boolean;
+  title?: string;
+  content?: Component;
+  onClose?: {
+    onClick: () => void;
+  };
+}> = shallowRef({ open: false });
 
-function showToast(title: string, description: string) {
-  toast.add({
-    title,
-    description,
-    class: "overflow-scroll max-h-[80vh]",
-
-  });
+function setModal(key: keyof typeof articles) {
+  modal.value = {
+    title: articles[key].title,
+    content: articles[key].content,
+    open: true,
+    onClose: {
+      onClick: () => {
+        modal.value = {...modal.value, open: false};
+      },
+    },
+  };
 }
 </script>
 
@@ -78,7 +89,7 @@ function showToast(title: string, description: string) {
             type="text"
             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             required
-          >
+          />
         </div>
       </div>
       <div>
@@ -94,7 +105,7 @@ function showToast(title: string, description: string) {
             type="text"
             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             required
-          >
+          />
         </div>
       </div>
       <div>
@@ -110,7 +121,7 @@ function showToast(title: string, description: string) {
             type="text"
             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             required
-          >
+          />
         </div>
       </div>
     </div>
@@ -123,13 +134,11 @@ function showToast(title: string, description: string) {
         </h3>
         <p
           class="mt-1 text-sm text-gray-500 flex items-center-safe gap-1 cursor-pointer transition-colors ease-in hover:text-gray-950"
-          @click="showToast(tooltips.fiveWhys)"
+          @click="setModal('fiveWhys')"
         >
           Below there are a series of 5 whys questions that will guide you to
           identify the root of the problem you want work on.
-          <Icon
-            name="ri:information-2-line"
-          />
+          <Icon name="ri:information-2-line" />
         </p>
       </div>
       <div class="mt-6 space-y-6">
@@ -148,7 +157,7 @@ function showToast(title: string, description: string) {
                 type="text"
                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 required
-              >
+              />
             </div>
           </div>
         </template>
@@ -179,7 +188,7 @@ function showToast(title: string, description: string) {
               type="text"
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               required
-            >
+            />
           </div>
         </div>
 
@@ -187,7 +196,7 @@ function showToast(title: string, description: string) {
           <label
             for="discPersonality"
             class="text-sm font-medium leading-6 text-gray-900 flex items-center-safe gap-1 cursor-pointer"
-            @click="showToast(tooltips.disk)"
+            @click="setModal('disc')"
           >
             DISC Personality
             <Icon name="ri:information-2-line" />
@@ -237,7 +246,7 @@ function showToast(title: string, description: string) {
           <label
             for="objectives"
             class="flex items-center-safe gap-1 cursor-pointer text-sm font-medium leading-6 text-gray-900"
-            @click="showToast(tooltips.coin)"
+            @click="setModal('coin')"
             >Objectives/Action Points (use COIN)
             <Icon name="ri:information-2-line" />
           </label>
@@ -265,4 +274,11 @@ function showToast(title: string, description: string) {
       </button>
     </div>
   </form>
+  <UModal v-model:open="modal.open" :title="modal.title" :close="modal.onClose">
+    <template #body>
+      <div class="max-h-[80vh] overflow-scroll">
+        <component :is="modal.content" />
+      </div>
+    </template>
+  </UModal>
 </template>
