@@ -6,7 +6,6 @@ export default defineEventHandler(async (event) => {
   if (!body?.feedback) return Promise.reject(new Error('No feedback provided'))
   const instructions = composeInstructions(body.feedback)
   const response = await openAiFacade.generateResponse(instructions)
-  console.log('SERVER')
   return {
     response
   }
